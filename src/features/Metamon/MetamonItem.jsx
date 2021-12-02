@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Tr, Td, Text } from "@chakra-ui/react";
+import { Tr, Td, Text, Image } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/vi";
@@ -33,6 +33,9 @@ const MetamonItem = ({ metamon }) => {
 
   return (
     <Tr key={metamon.id}>
+      <Td py="1">
+        <Image boxSize="4rem" src={metamon.img} />
+      </Td>
       <Td fontSize="xs">Metamon#{metamon.id}</Td>
 
       <Td isNumeric color="green.500">

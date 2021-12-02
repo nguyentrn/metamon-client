@@ -15,6 +15,7 @@ import MetamonItem from "./MetamonItem";
 const MetamonListAttr = () => {
   return (
     <Tr>
+      <Th>Avatar</Th>
       <Th>#ID</Th>
       <Th isNumeric>Giá</Th>
       <Th isNumeric>Rarity</Th>
