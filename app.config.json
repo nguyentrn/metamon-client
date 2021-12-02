@@ -1,0 +1,10 @@
+{
+  "apps": [
+    {
+      "name": "metamon-hunting",
+      "script": "npx",
+      "interpreter": "none",
+      "args": "serve -p 6868 -T"
+    }
+  ]
+}
