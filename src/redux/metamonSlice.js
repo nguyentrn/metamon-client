@@ -21,7 +21,7 @@ export const { setMetamons } = metamonMarketSlice.actions;
 
 export const loadMetamonMarket = () => async (dispatch, getState) => {
   const res = await axios(
-    "http://lenthiendang.com:6161/api/v1/metamon?sortBy=createdAt&isDesc=true&limit=100&level=5"
+    "http://lenthiendang.com:6161/api/v1/metamon?sortBy=createdAt&isDesc=true&limit=100&level=3"
   );
   dispatch(setMetamons(res.data.data));
   console.log(res.data.data);
