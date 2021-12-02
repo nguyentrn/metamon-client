@@ -36,7 +36,7 @@ const MetamonItem = ({ metamon }) => {
       <Td py="1">
         <Image boxSize="4rem" src={metamon.img} />
       </Td>
-      <Td fontSize="xs">Metamon#{metamon.id}</Td>å
+      <Td fontSize="xs">Metamon#{metamon.id}</Td>
       <Td isNumeric color="green.500">
         {numberWithCommas(metamon.price)}
       </Td>
