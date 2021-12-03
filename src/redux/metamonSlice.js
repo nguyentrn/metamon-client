@@ -14,6 +14,7 @@ const initialState = {
     sortBy: "createdAt",
     isDesc: true,
   },
+  lastId: undefined,
   updatedAt: dayjs().format("HH:mm:ss"),
 };
 
@@ -39,13 +40,16 @@ export const metamonMarketSlice = createSlice({
         state.settings.level = action.payload.level;
       }
     },
+    setLastId: (state, action) => {
+      state.lastId = action.payload;
+    },
     updatedAt: (state) => {
       state.updatedAt = dayjs().format("HH:mm:ss");
     },
   },
 });
 
-export const { setMetamons, setSortBy, setFilter, updatedAt } =
+export const { setMetamons, setSortBy, setFilter, setLastId, updatedAt } =
   metamonMarketSlice.actions;
 
 export const loadMetamonMarket = () => async (dispatch, getState) => {
@@ -60,6 +64,9 @@ export const loadMetamonMarket = () => async (dispatch, getState) => {
     `http://lenthiendang.com:6161/api/v1/metamon?${queryString}`
   );
   dispatch(setMetamons(res.data.data));
+  if (res.data.data.length) {
+    dispatch(setLastId(res.data.data[0].id));
+  }
   dispatch(updatedAt());
 };
 
@@ -71,5 +78,6 @@ export const selectMetamons = createSelector(
 
 export const selectSettings = (state) => state.metamon.settings;
 export const selectUpdatedAt = (state) => state.metamon.updatedAt;
+export const selectLastId = (state) => state.metamon.lastId;
 
 export default metamonMarketSlice.reducer;

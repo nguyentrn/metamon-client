@@ -1,11 +1,8 @@
 /* eslint-disable react/prop-types */
-import { Tr, Td, Text, Image } from "@chakra-ui/react";
+import { Tr, Td, Text, Image, Badge } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/vi";
-import { useEffect } from "react";
-
-const audio = new Audio(`${process.env.PUBLIC_URL}/sounds/awaken.mp3`);
 
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -14,21 +11,10 @@ dayjs.extend(relativeTime);
 dayjs.locale("vi");
 
 const MetamonItem = ({ metamon }) => {
-  useEffect(() => {
-    // if (metamon.props[2].value >= 10) {
-    //   audio.play();
-    // }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const handleMarket = () => {
     window.open(
       `https://market.radiocaca.com/#/market-place/${metamon.marketId}`
     );
-  };
-
-  const handleArtwork = () => {
-    window.open(`https://market.radiocaca.com/#/artwork/${metamon.artworkId}`);
   };
 
   return (
@@ -40,8 +26,18 @@ const MetamonItem = ({ metamon }) => {
       <Td isNumeric color="green.500">
         {numberWithCommas(metamon.price)}
       </Td>
-      <Td fontSize="xl" fontWeight="bold">
-        {metamon.rarity}
+      <Td
+        fontWeight="bold"
+        color={metamon.rarity === "N" ? "blackAlpha.900" : "yellow.500"}
+      >
+        <Badge
+          fontSize="2xl"
+          p="3"
+          borderRadius="lg"
+          colorScheme={metamon.rarity === "N" ? "gray" : "yellow"}
+        >
+          {metamon.rarity}
+        </Badge>
       </Td>
       <Td
         isNumeric
@@ -69,9 +65,6 @@ const MetamonItem = ({ metamon }) => {
       </Td>
       <Td cursor="pointer" color="blue.500" onClick={handleMarket}>
         /{metamon.marketId}
-      </Td>
-      <Td cursor="pointer" color="blue.500" onClick={handleArtwork}>
-        /{metamon.artworkId}
       </Td>
     </Tr>
   );

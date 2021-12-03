@@ -23,7 +23,6 @@ const MetamonListAttr = () => {
       <Th isNumeric>Score</Th>
       <Th>Đăng lúc</Th>
       <Th>Link Market</Th>
-      <Th>Link Artwork</Th>
     </Tr>
   );
 };

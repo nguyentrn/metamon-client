@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useInterval } from "react-use";
 import {
   loadMetamonMarket,
+  selectLastId,
   selectMetamons,
   selectSettings,
   selectUpdatedAt,
@@ -12,20 +13,27 @@ import {
 import Settings from "../Settings";
 import MetamonList from "./MetamonList";
 
+const audio = new Audio(`${process.env.PUBLIC_URL}/sounds/noti.mp3`);
+
 const Metamon = () => {
   const dispatch = useDispatch();
   const metamons = useSelector(selectMetamons);
   const settings = useSelector(selectSettings);
   const updatedAt = useSelector(selectUpdatedAt);
+  const lastId = useSelector(selectLastId);
 
   useInterval(() => {
     dispatch(loadMetamonMarket());
     return () => null;
-  }, 60 * 1000);
+  }, 30 * 1000);
 
   useEffect(() => {
     dispatch(loadMetamonMarket());
   }, [dispatch, settings]);
+
+  useEffect(() => {
+    audio.play();
+  }, [dispatch, lastId]);
 
   return (
     <Flex
