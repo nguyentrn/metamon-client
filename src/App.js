@@ -1,5 +1,6 @@
 import { Provider } from "react-redux";
 import { ChakraProvider } from "@chakra-ui/react";
+import { BrowserRouter } from "react-router-dom";
 
 import theme from "./theme";
 import Main from "./components/Main";
@@ -9,7 +10,9 @@ export default function App() {
   return (
     <ChakraProvider theme={theme}>
       <Provider store={store}>
-        <Main />
+        <BrowserRouter>
+          <Main />
+        </BrowserRouter>
       </Provider>
     </ChakraProvider>
   );

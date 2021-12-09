@@ -25,10 +25,6 @@ export const metamonMarketSlice = createSlice({
     setMetamons: (state, action) => {
       state.metamons = action.payload;
     },
-    setSortBy: (state, action) => {
-      state.settings.sortBy = action.payload;
-      state.settings.isDesc = action.payload !== "price";
-    },
     setFilter: (state, action) => {
       if (action.payload.score) {
         state.settings.score = action.payload.score;
@@ -39,6 +35,10 @@ export const metamonMarketSlice = createSlice({
       if (action.payload.level) {
         state.settings.level = action.payload.level;
       }
+    },
+    setSortBy: (state, action) => {
+      state.settings.sortBy = action.payload;
+      state.settings.isDesc = action.payload !== "price";
     },
     setLastId: (state, action) => {
       state.lastId = action.payload;

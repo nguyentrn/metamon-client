@@ -1,9 +1,12 @@
-/* eslint-disable import/no-named-as-default */
 import { configureStore } from "@reduxjs/toolkit";
-import metamonSlice from "./metamonSlice";
+import othersSlice from "./othersSlice";
+import statsSlice from "./statsSlice";
+import navSlice from "./navSlice";
 
 export default configureStore({
   reducer: {
-    metamon: metamonSlice,
+    stats: statsSlice,
+    nav: navSlice,
+    others: othersSlice,
   },
 });
