@@ -13,6 +13,7 @@ import {
   selectLastId,
   selectOthers,
   selectUpdatedAt,
+  selectMetamonSettings,
 } from "../../redux/othersSlice";
 import Settings from "../Settings";
 import MetamonList from "./MetamonList";
@@ -24,6 +25,7 @@ const Metamon = () => {
   const metamons = useSelector(selectMetamons);
   const others = useSelector(selectOthers);
   const settings = useSelector(selectSettings);
+  const metamonSettings = useSelector(selectMetamonSettings);
   const updatedAt = useSelector(selectUpdatedAt);
   const lastItemId = useSelector(selectLastId);
   const selectedCategory = useSelector(selectSelectedCategory);
@@ -44,7 +46,7 @@ const Metamon = () => {
       dispatch(loadOthersMarket());
     }
     return () => null;
-  }, [dispatch, settings, selectedCategory]);
+  }, [dispatch, settings, metamonSettings, selectedCategory]);
 
   useEffect(() => {
     audio.play();

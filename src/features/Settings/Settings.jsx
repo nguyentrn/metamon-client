@@ -17,8 +17,8 @@ import { forwardRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectMetamonSettings,
-  setFilter,
-  setSortBy,
+  setMetamonFilter,
+  setMetamonSortBy,
 } from "../../redux/othersSlice";
 import { selectSelectedCategory } from "../../redux/navSlice";
 
@@ -56,10 +56,10 @@ const Settings = () => {
   });
 
   const handleSortBy = (e) => {
-    dispatch(setSortBy(e.target.value));
+    dispatch(setMetamonSortBy(e.target.value));
   };
   const onSubmit = async (data) => {
-    dispatch(setFilter(data));
+    dispatch(setMetamonFilter(data));
   };
 
   return (
@@ -107,11 +107,11 @@ const Settings = () => {
           Sắp xếp theo
         </FormLabel>
         <Select fontSize="sm" onChange={handleSortBy} borderColor="blue.300">
-          <option value="createdAt">Thời gian đăng bán</option>
+          <option value="price">Giá</option>
           {selectedCategory === "metamon" ? (
             <>
+              <option value="createdAt">Thời gian đăng bán</option>
               <option value="level">Level</option>
-              <option value="price">Giá</option>
               <option value="score">Score</option>
             </>
           ) : (
