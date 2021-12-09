@@ -47,8 +47,15 @@ export const othersMarketSlice = createSlice({
       state.items = action.payload;
     },
     setSortBy: (state, action) => {
-      state.settings.sortBy = action.payload;
-      state.settings.isDesc = action.payload !== "price";
+      switch (action.payload) {
+        case "createdAt":
+          state.settings.sortBy = "created_at";
+          break;
+        default:
+          state.settings.sortBy = "single_price";
+          break;
+      }
+      state.settings.order = action.payload !== "price" ? "desc" : "asc";
     },
     setFilter: (state, action) => {
       if (action.payload.price) {

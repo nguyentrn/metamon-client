@@ -12,13 +12,14 @@ import {
   NumberDecrementStepper,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-
 import { forwardRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   selectMetamonSettings,
   setMetamonFilter,
   setMetamonSortBy,
+  setSortBy,
 } from "../../redux/othersSlice";
 import { selectSelectedCategory } from "../../redux/navSlice";
 
@@ -49,15 +50,19 @@ const NInput = forwardRef((props, ref) => {
 
 const Settings = () => {
   const selectedCategory = useSelector(selectSelectedCategory);
-
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm({
     shouldUseNativeValidation: true,
   });
 
   const handleSortBy = (e) => {
-    dispatch(setMetamonSortBy(e.target.value));
+    dispatch(
+      selectedCategory === "metamon"
+        ? setMetamonSortBy(e.target.value)
+        : setSortBy(e.target.value)
+    );
   };
+
   const onSubmit = async (data) => {
     dispatch(setMetamonFilter(data));
   };
@@ -106,11 +111,16 @@ const Settings = () => {
         <FormLabel fontSize="sm" lineHeight="0.5">
           Sắp xếp theo
         </FormLabel>
-        <Select fontSize="sm" onChange={handleSortBy} borderColor="blue.300">
+        <Select
+          fontSize="sm"
+          onChange={handleSortBy}
+          defaultValue="createdAt"
+          borderColor="blue.300"
+        >
+          <option value="createdAt">Thời gian đăng bán</option>
           <option value="price">Giá</option>
           {selectedCategory === "metamon" ? (
             <>
-              <option value="createdAt">Thời gian đăng bán</option>
               <option value="level">Level</option>
               <option value="score">Score</option>
             </>
