@@ -40,6 +40,7 @@ const Login = () => {
       >
         <Input
           placeholder="address"
+          size="sm"
           my="1"
           {...register("address", {
             required: "Please enter your first name.",
@@ -47,11 +48,13 @@ const Login = () => {
         />
         <Input
           placeholder="sign"
+          size="sm"
           my="1"
           {...register("sign", { required: "Please enter your first name." })}
         />
         <Input
           placeholder="msg"
+          size="sm"
           my="1"
           {...register("msg", { required: "Please enter your first name." })}
         />

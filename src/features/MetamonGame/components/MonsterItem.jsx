@@ -40,7 +40,7 @@ const MonsterItem = ({ monster }) => {
       <Td>{monster.tear} / 20</Td>
       <Td>
         <Button
-          // disabled={!monster.tear}
+          disabled={!monster.tear}
           size="sm"
           colorScheme="green"
           onClick={handleFightOne}
