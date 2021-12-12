@@ -113,9 +113,7 @@ export const loadOthersMarket = () => async (dispatch, getState) => {
   const res = await axios(
     `https://market-api.radiocaca.com/nft-sales?${queryString}`
   );
-  console.log(category.id);
   const data = res.data.list.map((item) => formatItem(item, category.name));
-  // console.log(data);
 
   dispatch(setItems(data));
 

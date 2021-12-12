@@ -1,7 +1,6 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-await-in-loop */
 import { createSlice } from "@reduxjs/toolkit";
-// import axios from "axios";
 
 const initialState = {
   selectedCategory: "metamon",

@@ -11,11 +11,15 @@ const Home = () => {
       align="center"
       justify="center"
     >
-      {/* <Background /> */}
       <Flex>
         <Link to="skyeye">
-          <Button size="lg" colorScheme="green">
+          <Button size="lg" colorScheme="orange" m="1">
             SkyEye
+          </Button>
+        </Link>
+        <Link to="game">
+          <Button size="lg" colorScheme="orange" m="1">
+            MetamonAuto
           </Button>
         </Link>
       </Flex>

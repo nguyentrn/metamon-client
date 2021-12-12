@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import createFormData from '../utils/createFormData';
 import apis from '../constant/apis';
 
 class API {
@@ -9,10 +10,8 @@ class API {
 
   async sendRequest(requestType, data) {
     const { url } = apis[requestType];
-    const bodyFormData = new FormData();
-    Object.entries(data).forEach(([key, val]) => {
-      bodyFormData.append(key, val);
-    });
+
+    const bodyFormData = createFormData(data);
 
     const res = await axios({
       method: 'post',
