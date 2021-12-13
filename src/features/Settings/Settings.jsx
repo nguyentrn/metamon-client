@@ -20,8 +20,7 @@ import {
   setMetamonFilter,
   setMetamonSortBy,
   setSortBy,
-} from "../../redux/othersSlice";
-import { selectSelectedCategory } from "../../redux/navSlice";
+} from "../../redux/marketSlice";
 
 const NInput = forwardRef((props, ref) => {
   const metamonSettings = useSelector(selectMetamonSettings);
@@ -48,8 +47,7 @@ const NInput = forwardRef((props, ref) => {
   );
 });
 
-const Settings = () => {
-  const selectedCategory = useSelector(selectSelectedCategory);
+const Settings = ({ selectedCategory }) => {
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm({
     shouldUseNativeValidation: true,

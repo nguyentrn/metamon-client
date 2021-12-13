@@ -1,21 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
-import server from "../model/Server";
+import Server from "../model/Server";
 import sleep from "../utils/sleep";
-
+import createFormData from "../utils/createFormData";
 import API from "../model/API";
+import { initUser } from "./authSlice";
 
 const initialState = {
+  address: undefined,
   monsters: undefined,
   items: undefined,
   battleInfo: undefined,
+  isLoadingFighting: false,
   isLoadingGame: false,
+  gameToken: undefined,
+  gameErr: undefined,
 };
 
 export const dataSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
+    setAddress: (state, action) => {
+      state.address = action.payload;
+    },
+    setGameToken: (state, action) => {
+      state.gameToken = action.payload;
+    },
     setMonsters: (state, action) => {
       state.monsters = action.payload;
     },
@@ -25,6 +37,12 @@ export const dataSlice = createSlice({
     setBattleInfo: (state, action) => {
       state.battleInfo = action.payload;
     },
+    setGameErr: (state, action) => {
+      state.gameErr = action.payload;
+    },
+    toggleLoadingFighting: (state, action) => {
+      state.isLoadingFighting = action.payload;
+    },
     toggleLoadingGame: (state, action) => {
       state.isLoadingGame = action.payload;
     },
@@ -32,11 +50,14 @@ export const dataSlice = createSlice({
 });
 
 export const {
+  setAddress,
+  setGameToken,
+  setGameErr,
   setMonsters,
   setItems,
   setFightMonsters,
-  setBattleObj,
   setBattleInfo,
+  toggleLoadingFighting,
   toggleLoadingGame,
 } = dataSlice.actions;
 
@@ -55,11 +76,49 @@ const formatItemsData = (data) => {
   });
 };
 
+export const loginGame = (data) => async (dispatch, getState) => {
+  try {
+    const {
+      auth: { token },
+    } = getState((state) => state);
+
+    dispatch(toggleLoadingGame(true));
+    const url = "https://metamon-api.radiocaca.com/usm-api/login";
+    const bodyFormData = createFormData(data);
+    dispatch(setAddress(data.address));
+    const res = await axios.post(url, bodyFormData);
+
+    if (res.data.data) {
+      dispatch(setGameToken(res.data.data));
+      dispatch(toggleLoadingGame(false));
+      const server = new Server(token);
+      await server.insertAddress(data);
+    } else {
+      dispatch(setGameErr("Thông tin đăng nhập sai!"));
+      dispatch(toggleLoadingGame(false));
+    }
+  } catch (err) {
+    dispatch(setGameErr("Thông tin đăng nhập sai!"));
+    dispatch(toggleLoadingGame(false));
+    console.log(err);
+  }
+};
+
+export const removeAddress = (addressId) => async (dispatch, getState) => {
+  const {
+    auth: { token },
+  } = getState((state) => state);
+
+  const server = new Server(token);
+  await server.removeAddress(addressId);
+  dispatch(initUser(token));
+};
+
 export const getData = () => async (dispatch, getState) => {
   const {
-    auth: { token, address },
+    game: { gameToken, address },
   } = getState((state) => state);
-  const api = new API(token);
+  const api = new API(gameToken);
 
   const res = await Promise.all([
     api.sendRequest("getWalletPropertyList", { address }),
@@ -71,11 +130,12 @@ export const getData = () => async (dispatch, getState) => {
 };
 
 const fight = (monster) => async (dispatch, getState) => {
-  dispatch(toggleLoadingGame(true));
+  dispatch(toggleLoadingFighting(true));
   const {
-    auth: { token, address },
+    game: { gameToken, address },
   } = getState((state) => state);
 
+  const server = new Server();
   const lastMonster = await server.getLastMonster();
   const monsterB = (lastMonster.id + 1).toString();
   const battleLevel = Math.ceil(monster.level / 20);
@@ -85,7 +145,7 @@ const fight = (monster) => async (dispatch, getState) => {
     monsterB,
     battleLevel,
   };
-  const api = new API(token);
+  const api = new API(gameToken);
   const battleInfo = await api.sendRequest("startBattle", data);
   dispatch(getData());
 
@@ -116,28 +176,31 @@ const fight = (monster) => async (dispatch, getState) => {
     });
     dispatch(setBattleInfo(battleInfo.data));
   }
-  dispatch(toggleLoadingGame(false));
+  dispatch(toggleLoadingFighting(false));
 };
 
 export const startOneBattle = (monster) => async (dispatch) => {
   dispatch(fight(monster));
 };
 
-export const startManyBattle = () => async (dispatch, getState) => {
-  const {
-    game: {
-      fightMonster: { tear },
-    },
-  } = getState((state) => state);
-  for (let i = 0; i < tear; i++) {
-    dispatch(fight());
-    await sleep(1000);
-  }
-};
+// export const startManyBattle = () => async (dispatch, getState) => {
+//   const {
+//     game: {
+//       fightMonster: { tear },
+//     },
+//   } = getState((state) => state);
+//   for (let i = 0; i < tear; i++) {
+//     dispatch(fight());
+//     await sleep(1000);
+//   }
+// };
 
+export const selectIsLoadingFighting = (state) => state.game.isLoadingFighting;
 export const selectIsLoadingGame = (state) => state.game.isLoadingGame;
 export const selectMonsters = (state) => state.game.monsters;
 export const selectBattleInfo = (state) => state.game.battleInfo;
 export const selectItems = (state) => state.game.items;
+export const selectGameToken = (state) => state.game.gameToken;
+export const selectGameErr = (state) => state.game.gameErr;
 
 export default dataSlice.reducer;

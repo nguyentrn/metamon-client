@@ -1,10 +1,18 @@
 import axios from "axios";
 
 export class Server {
-  constructor(address) {
+  constructor(token) {
     this.hostname = "http://lenthiendang.com:6161";
-    // this.hostname = 'http://localhost:6161';
-    this.address = address;
+    // this.hostname = "http://localhost:6161";
+    this.token = token;
+  }
+
+  getConfig() {
+    return {
+      headers: {
+        authentication: `Bearer ${this.token}`,
+      },
+    };
   }
 
   setAddress(address) {
@@ -12,23 +20,40 @@ export class Server {
   }
 
   async checkUser() {
-    const res = await axios.post(`${this.hostname}/api/v1/user/check`, {
-      address: this.address,
-    });
+    const res = await axios(
+      `${this.hostname}/api/v1/user/check`,
+      this.getConfig()
+    );
     return res.data;
   }
 
   async insertMonster(monster) {
-    await axios.post(`${this.hostname}/api/v1/monster/insertOne`, monster);
+    await axios.post(`${this.hostname}/api/v1/game/monster/insertOne`, monster);
   }
 
-  async getLastMonster(monster) {
+  async getLastMonster() {
     const lastMonster = await axios(
-      `${this.hostname}/api/v1/monster/lastMonster`
+      `${this.hostname}/api/v1/game/monster/lastMonster`
     );
     return lastMonster.data.data;
   }
+
+  async insertAddress(address) {
+    await axios.post(
+      `${this.hostname}/api/v1/game/address/insertOne`,
+      address,
+      this.getConfig()
+    );
+  }
+
+  async removeAddress(addressId) {
+    console.log(addressId);
+    await axios.post(
+      `${this.hostname}/api/v1/game/address/removeOne`,
+      { addressId },
+      this.getConfig()
+    );
+  }
 }
 
-const server = new Server();
-export default server;
+export default Server;

@@ -1,71 +1,55 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import createFormData from "../utils/createFormData";
-
-// import server from '../model/Server';
+import Server from "../model/Server";
 
 const initialState = {
-  address: undefined,
-  sign: undefined,
   token: undefined,
+  role: undefined,
+  addresses: undefined,
   err: undefined,
-  isLoading: false,
+  isLoggingIn: undefined,
 };
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    setRole: (state, action) => {
+      state.role = action.payload;
+    },
     setToken: (state, action) => {
       state.token = action.payload;
     },
-    setAddress: (state, action) => {
-      state.address = action.payload;
+    setAddresses: (state, action) => {
+      state.addresses = action.payload;
     },
     setErr: (state, action) => {
       state.err = action.payload;
     },
-    toggleLoading: (state, action) => {
-      state.isLoading = action.payload;
+    toggleIsLoggingIn: (state, action) => {
+      state.isLoggingIn = action.payload;
     },
   },
 });
 
-export const { setToken, setAddress, setErr, toggleLoading } =
+export const { setToken, setRole, setAddresses, setErr, toggleIsLoggingIn } =
   authSlice.actions;
 
-export const login = (data) => async (dispatch) => {
+export const initUser = (token) => async (dispatch) => {
   try {
-    dispatch(toggleLoading(true));
-    const url = "https://metamon-api.radiocaca.com/usm-api/login";
-    const bodyFormData = createFormData(data);
-
-    const res = await axios.post(url, bodyFormData);
-
-    if (res.data.data) {
-      dispatch(setToken(res.data.data));
-      dispatch(setAddress(data.address));
-
-      // server.setAddress(data.address);
-      // const user = await server.checkUser();
-      // if (user.result) {
-      dispatch(toggleLoading(false));
-      // } else {
-      //   dispatch(setErr('Tính năng nội bộ!'));
-      // }
-    } else {
-      dispatch(setErr("Thông tin đăng nhập sai!"));
-      dispatch(toggleLoading(false));
-    }
+    const server = new Server(token);
+    const user = await server.checkUser();
+    dispatch(setToken(token));
+    dispatch(setRole(user.result.role));
+    dispatch(setAddresses(user.result.addresses));
   } catch (err) {
     dispatch(setErr("Thông tin đăng nhập sai!"));
-    dispatch(toggleLoading(false));
+    dispatch(toggleIsLoggingIn(false));
     console.log(err);
   }
 };
 
-export const selectToken = (state) => state.auth.token;
-export const selectIsLoading = (state) => state.auth.isLoading;
+export const selectAddresses = (state) => state.auth.addresses;
 export const selectErr = (state) => state.auth.err;
+export const selectIsLoggingIn = (state) => state.auth.isLoggingIn;
 
 export default authSlice.reducer;

@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useInterval } from "react-use";
 
-import { selectSelectedCategory } from "../../redux/navSlice";
 import {
   loadMetamonMarket,
   selectMetamons,
@@ -14,11 +13,12 @@ import {
   selectOthers,
   selectUpdatedAt,
   selectMetamonSettings,
-} from "../../redux/othersSlice";
+  selectSelectedCategory,
+} from "../../redux/marketSlice";
 import Settings from "../Settings";
 import MetamonList from "./MetamonList";
 
-const audio = new Audio(`${process.env.PUBLIC_URL}/sounds/noti.mp3`);
+const audio = new Audio(`/sounds/noti.mp3`);
 
 const Metamon = () => {
   const dispatch = useDispatch();
@@ -56,8 +56,8 @@ const Metamon = () => {
     <Flex
       flexDir="column"
       bg="whiteAlpha.800"
-      h="95vh"
-      w="56rem"
+      h="95%"
+      w="70%"
       m="auto"
       overflowY="hidden"
       borderRadius="lg"
@@ -68,9 +68,10 @@ const Metamon = () => {
       <Text fontSize="3xl" p="2">
         SkyEye
       </Text>
-      <Settings />
+      <Settings selectedCategory={selectedCategory} />
       <MetamonList
-        metamons={selectedCategory === "metamon" ? metamons : others}
+        marketItems={selectedCategory === "metamon" ? metamons : others}
+        selectedCategory={selectedCategory}
       />
 
       <Flex

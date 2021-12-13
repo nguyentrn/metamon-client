@@ -9,8 +9,6 @@ import {
   Th,
   TableCaption,
 } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
-import { selectSelectedCategory } from "../../redux/navSlice";
 
 import MetamonItem from "./MetamonItem";
 
@@ -39,8 +37,7 @@ const MetamonListAttr = ({ selectedCategory }) => {
   );
 };
 
-const MetamonList = ({ metamons }) => {
-  const selectedCategory = useSelector(selectSelectedCategory);
+const MetamonList = ({ marketItems, selectedCategory }) => {
   return (
     <Flex flexDir="column" w="100%" overflowY="scroll">
       <Table variant="simple" size="sm">
@@ -49,7 +46,7 @@ const MetamonList = ({ metamons }) => {
           <MetamonListAttr selectedCategory={selectedCategory} />
         </Thead>
         <Tbody>
-          {metamons.map((metamon) => (
+          {marketItems.map((metamon) => (
             <MetamonItem
               metamon={metamon}
               key={metamon.marketId}

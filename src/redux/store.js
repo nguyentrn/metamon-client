@@ -1,15 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import othersSlice from "./othersSlice";
+import marketSlice from "./marketSlice";
 import statsSlice from "./statsSlice";
-import navSlice from "./navSlice";
 import authSlice from "./authSlice";
 import gameSlice from "./gameSlice";
 
 export default configureStore({
   reducer: {
     stats: statsSlice,
-    nav: navSlice,
-    others: othersSlice,
+    market: marketSlice,
     auth: authSlice,
     game: gameSlice,
   },

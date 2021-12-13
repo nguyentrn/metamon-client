@@ -30,24 +30,28 @@ export const statsSlice = createSlice({
 export const { setCommonStats, setMetamonStats } = statsSlice.actions;
 
 const getStats = async (categories) => {
-  const res = await Promise.all(
-    categories.map(async (cate) => {
-      const res = await axios(
-        `https://market-api.radiocaca.com/nft-sales?pageNo=1&pageSize=1&sortBy=single_price&order=asc&category=${cate.id}&tokenId=${cate.tokenId}`
-      );
+  try {
+    const res = await Promise.all(
+      categories.map(async (cate) => {
+        const res = await axios(
+          `https://market-api.radiocaca.com/nft-sales?pageNo=1&pageSize=1&sortBy=single_price&order=asc&category=${cate.id}&tokenId=${cate.tokenId}`
+        );
 
-      return {
-        count: res.data.total,
-        price: res.data.list.length
-          ? (res.data.list[0].fixed_price * 1) / res.data.list[0].count
-          : null,
-        id: cate.id,
-        name: cate.name,
-        slug: cate.slug,
-      };
-    })
-  );
-  return byCount(res.filter((data) => data.price));
+        return {
+          count: res.data.total,
+          price: res.data.list.length
+            ? (res.data.list[0].fixed_price * 1) / res.data.list[0].count
+            : null,
+          id: cate.id,
+          name: cate.name,
+          slug: cate.slug,
+        };
+      })
+    );
+    return byCount(res.filter((data) => data.price));
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const loadCommonStats = () => async (dispatch) => {

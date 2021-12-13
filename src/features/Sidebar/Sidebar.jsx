@@ -7,7 +7,7 @@ import { useInterval } from "react-use";
 import {
   selectSelectedCategory,
   setSelectedCategory,
-} from "../../redux/navSlice";
+} from "../../redux/marketSlice";
 import {
   loadCommonStats,
   loadMetamonStats,
@@ -88,21 +88,27 @@ const Sidebar = () => {
         onClick={handleSelectMetamon}
       >
         <Flex>Metamon</Flex>
-        {metamonStats.map((cate) => (
-          <Flex justify="space-between" w="18rem" key={cate.slug}>
-            <Flex justify="space-between" minW="15rem">
-              <Flex fontSize="xs">{cate.name}</Flex>
-              <Flex fontSize="xs">{formatNumber(cate.price)}</Flex>
+        {metamonStats &&
+          metamonStats.map((cate) => (
+            <Flex justify="space-between" w="18rem" key={cate.slug}>
+              <Flex justify="space-between" minW="15rem">
+                <Flex fontSize="xs">{cate.name}</Flex>
+                <Flex fontSize="xs">{formatNumber(cate.price)}</Flex>
+              </Flex>
+              <Flex fontSize="xs">{cate.count}</Flex>
             </Flex>
-            <Flex fontSize="xs">{cate.count}</Flex>
-          </Flex>
-        ))}
+          ))}
       </Flex>
       <Flex flexDir="column" align="center" w="18rem">
         <Flex>Non-property Items</Flex>
-        {commonStats.map((cate) => (
-          <NonPropsItem cate={cate} selectedCategory={selectedCategory} />
-        ))}
+        {commonStats &&
+          commonStats.map((cate) => (
+            <NonPropsItem
+              cate={cate}
+              key={cate.slug}
+              selectedCategory={selectedCategory}
+            />
+          ))}
       </Flex>
       <Flex
         flexDir="column"

@@ -1,23 +1,15 @@
-import { Flex } from "@chakra-ui/react";
+import dynamic from "next/dynamic";
 
-import Others from "../features/Others";
-import Sidebar from "../features/Sidebar";
+import App from "../components/App";
+const Sidebar = dynamic(() => import("../features/Sidebar"), { ssr: false });
+const Others = dynamic(() => import("../features/Others"), { ssr: false });
 
 const Main = () => {
   return (
-    <Flex
-      pos="relative"
-      flexDir="column"
-      h="100vh"
-      w="100vw"
-      align="center"
-      justify="center"
-    >
-      <Flex w="100vw" h="100vh">
-        <Sidebar />
-        <Others />
-      </Flex>
-    </Flex>
+    <App>
+      <Sidebar />
+      <Others />
+    </App>
   );
 };
 
