@@ -22,7 +22,6 @@ export default NextAuth({
   // It is used to sign cookies and to sign and encrypt JSON Web Tokens, unless
   // a separate secret is defined explicitly for encrypting the JWT.
   secret: process.env.SECRET,
-
   session: {
     // Use JSON Web Tokens for session instead of database sessions.
     // This option can be used with or without a database for users/accounts.
@@ -91,17 +90,17 @@ export default NextAuth({
     colorScheme: "light",
   },
 
-  cookies: {
-    sessionToken: {
-      name: `next-auth.session-token`,
-      options: {
-        httpOnly: false,
-        sameSite: "lax",
-        path: "/",
-        secure: true,
-      },
-    },
-  },
+  // cookies: {
+  //   sessionToken: {
+  //     name: `next-auth.session-token`,
+  //     options: {
+  //       httpOnly: false,
+  //       sameSite: "lax",
+  //       path: "/",
+  //       secure: false,
+  //     },
+  //   },
+  // },
 
   // Enable debug messages in the console if you are having problems
   debug: false,
