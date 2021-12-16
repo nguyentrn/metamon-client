@@ -11,12 +11,11 @@ const MonsterTable = () => {
   return (
     <Flex
       bg="whiteAlpha.900"
-      p="4"
-      minW="50%"
-      h="100%"
+      p="2"
       flexDir="column"
       borderRadius="3xl"
       my="2"
+      overflow="hidden"
     >
       <TableHeader />
       {monsters ? <MonsterList monsters={monsters} /> : ""}

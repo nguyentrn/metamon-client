@@ -15,7 +15,6 @@ const Dashboard = () => {
       justify="space-between"
       flexDir="column"
       w="100vw"
-      h="100vh"
       p="1%"
       overflow="hidden"
     >

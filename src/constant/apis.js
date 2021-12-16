@@ -53,6 +53,14 @@ const apis = {
       battleLevel: 1,
     },
   },
+
+  composeMonsterEgg: {
+    url: "https://metamon-api.radiocaca.com/usm-api/composeMonsterEgg",
+    method: "post",
+    data: {
+      address: "0x04D8BA1E71b967DE73760967013969fB66a0Ee8E",
+    },
+  },
 };
 
 export default apis;
