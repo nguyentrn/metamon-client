@@ -143,6 +143,7 @@ const fight = (monster) => async (dispatch, getState) => {
     address,
     monsterA: monster.id,
     monsterB,
+    // monsterB: "994145",
     battleLevel,
   };
   const api = new API(gameToken);
@@ -176,6 +177,23 @@ const fight = (monster) => async (dispatch, getState) => {
     });
     dispatch(setBattleInfo(battleInfo.data));
   }
+  dispatch(toggleLoadingFighting(false));
+};
+
+export const updateMonster = (nftId) => async (dispatch, getState) => {
+  dispatch(toggleLoadingFighting(true));
+  const {
+    game: { gameToken, address },
+  } = getState((state) => state);
+
+  const data = {
+    address,
+    nftId,
+  };
+  const api = new API(gameToken);
+  await api.sendRequest("updateMonster", data);
+  dispatch(getData());
+
   dispatch(toggleLoadingFighting(false));
 };
 

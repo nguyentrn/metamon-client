@@ -1,12 +1,16 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Spinner, Text } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 
-import { selectBattleInfo } from "../../../redux/gameSlice";
+import {
+  selectBattleInfo,
+  selectIsLoadingFighting,
+} from "../../../redux/gameSlice";
 import BattleInfo from "../components/BattleInfo";
 
 const BattleBox = () => {
   const battle = useSelector(selectBattleInfo);
-
+  const isLoadingFighting = useSelector(selectIsLoadingFighting);
+  console.log(isLoadingFighting);
   return (
     <Flex
       bg="white"
@@ -17,6 +21,8 @@ const BattleBox = () => {
       minH="10rem"
       flexDir="column"
       borderRadius="3xl"
+      pos="relative"
+      overflow="hidden"
     >
       {battle ? (
         <BattleInfo battle={battle} />
@@ -24,6 +30,13 @@ const BattleBox = () => {
         <Text color="blackAlpha.600" fontSize="sm" fontWeight="semibold">
           Dữ liệu Battle
         </Text>
+      )}
+      {isLoadingFighting ? (
+        <Flex pos="absolute" w="100%" h="100%" bg="blackAlpha.700">
+          <Spinner m="auto" size="xl" color="whiteAlpha.900" />
+        </Flex>
+      ) : (
+        ""
       )}
     </Flex>
   );

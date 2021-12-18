@@ -4,7 +4,6 @@ import { selectItems } from "../../../redux/gameSlice";
 
 const Items = () => {
   const items = useSelector(selectItems);
-
   return (
     <Flex
       bg="whiteAlpha.900"
@@ -21,7 +20,7 @@ const Items = () => {
     >
       {items
         ? items.map((item) => (
-            <Flex>
+            <Flex key={item.bpType}>
               {item.name}: {item.bpNum}
             </Flex>
           ))

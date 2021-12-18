@@ -61,6 +61,15 @@ const apis = {
       address: "0x04D8BA1E71b967DE73760967013969fB66a0Ee8E",
     },
   },
+
+  updateMonster: {
+    url: "https://metamon-api.radiocaca.com/usm-api/updateMonster",
+    method: "post",
+    data: {
+      nftId: "502119",
+      address: "0x04D8BA1E71b967DE73760967013969fB66a0Ee8E",
+    },
+  },
 };
 
 export default apis;

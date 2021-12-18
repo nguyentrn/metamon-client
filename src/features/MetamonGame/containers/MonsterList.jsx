@@ -24,6 +24,7 @@ const MonsterList = ({ monsters }) => {
             <Th isNumeric>EXP</Th>
             <Th isNumeric>Energy</Th>
             <Th isNumeric>Fight One</Th>
+            <Th isNumeric>Level Up</Th>
           </Tr>
         </Thead>
         <Tbody overflow="scroll">

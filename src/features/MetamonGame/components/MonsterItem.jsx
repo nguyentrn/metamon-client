@@ -2,7 +2,11 @@
 import { Image, Tr, Td, Button } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { selectIsLoadingGame, startOneBattle } from "../../../redux/gameSlice";
+import {
+  selectIsLoadingFighting,
+  startOneBattle,
+  updateMonster,
+} from "../../../redux/gameSlice";
 
 // const monsterAtts = [
 //   { label: 'Luck', attr: 'luk' },
@@ -14,10 +18,14 @@ import { selectIsLoadingGame, startOneBattle } from "../../../redux/gameSlice";
 
 const MonsterItem = ({ monster }) => {
   const dispatch = useDispatch();
-  const isLoadingGame = useSelector(selectIsLoadingGame);
+  const isLoadingFight = useSelector(selectIsLoadingFighting);
 
   const handleFightOne = () => {
     dispatch(startOneBattle(monster));
+  };
+
+  const handleUpdateMonster = () => {
+    dispatch(updateMonster(monster.id));
   };
 
   return (
@@ -44,10 +52,20 @@ const MonsterItem = ({ monster }) => {
           size="sm"
           colorScheme="green"
           onClick={handleFightOne}
-          isLoading={isLoadingGame}
+          isLoading={isLoadingFight}
           loadingText="Fighting"
         >
           Fight One
+        </Button>
+      </Td>
+      <Td>
+        <Button
+          disabled={monster.exp < monster.expMax}
+          size="sm"
+          colorScheme="green"
+          onClick={handleUpdateMonster}
+        >
+          Level Up
         </Button>
       </Td>
     </Tr>
