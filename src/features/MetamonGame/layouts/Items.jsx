@@ -7,13 +7,13 @@ const Items = () => {
   return (
     <Flex
       bg="whiteAlpha.900"
-      p="2"
+      px="2"
       w="30rem"
-      minH="10%"
+      minH="2rem"
       // flexDir="column"
       justify="space-between"
       align="center"
-      borderRadius="3xl"
+      borderRadius="sm"
       fontSize="xs"
       fontWeight="bold"
       color="blackAlpha.700"

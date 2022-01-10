@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 import Server from "../model/Server";
@@ -12,6 +12,8 @@ const initialState = {
   monsters: undefined,
   items: undefined,
   battleInfo: undefined,
+  total: 0,
+  win: 0,
   isLoadingFighting: false,
   isLoadingGame: false,
   gameToken: undefined,
@@ -37,6 +39,12 @@ export const dataSlice = createSlice({
     setBattleInfo: (state, action) => {
       state.battleInfo = action.payload;
     },
+    addTotalCount: (state) => {
+      state.total += 1;
+    },
+    addWinCount: (state) => {
+      state.win += 1;
+    },
     setGameErr: (state, action) => {
       state.gameErr = action.payload;
     },
@@ -57,23 +65,27 @@ export const {
   setItems,
   setFightMonsters,
   setBattleInfo,
+  addTotalCount,
+  addWinCount,
   toggleLoadingFighting,
   toggleLoadingGame,
 } = dataSlice.actions;
 
 const formatItemsData = (data) => {
-  return data.map((item) => {
-    if (item.bpType === 1) {
-      item.name = "Egg Frag.";
-    } else if (item.bpType === 2) {
-      item.name = "Potion";
-    } else if (item.bpType === 5) {
-      item.name = "uRACA";
-    } else if (item.bpType === 6) {
-      item.name = "Egg";
-    }
-    return item;
-  });
+  return data
+    .map((item) => {
+      if (item.bpType === 1) {
+        item.name = "Egg Frag.";
+      } else if (item.bpType === 2) {
+        item.name = "Potion";
+      } else if (item.bpType === 5) {
+        item.name = "uRACA";
+      } else if (item.bpType === 6) {
+        item.name = "Egg";
+      }
+      return item;
+    })
+    .filter((item) => item.name);
 };
 
 export const loginGame = (data) => async (dispatch, getState) => {
@@ -143,15 +155,25 @@ const fight = (monster) => async (dispatch, getState) => {
     address,
     monsterA: monster.id,
     monsterB,
-    // monsterB: "994145",
+    // monsterB: "196225",
+    // monsterB: "1004424",
     battleLevel,
   };
   const api = new API(gameToken);
   const battleInfo = await api.sendRequest("startBattle", data);
   dispatch(getData());
+  if (battleInfo.code === "MONSTER_ERROR") {
+    await server.insertMonster({
+      id: monsterB,
+      createTime: new Date(),
+    });
+  } else if (battleInfo.data) {
+    const { challengedMonster, challengeResult } = battleInfo.data;
+    dispatch(addTotalCount());
+    if (challengeResult) {
+      dispatch(addWinCount());
+    }
 
-  if (battleInfo.data) {
-    const { challengedMonster } = battleInfo.data;
     await server.insertMonster({
       con: challengedMonster.con,
       createTime: challengedMonster.createTime,
@@ -218,6 +240,11 @@ export const selectIsLoadingGame = (state) => state.game.isLoadingGame;
 export const selectMonsters = (state) => state.game.monsters;
 export const selectBattleInfo = (state) => state.game.battleInfo;
 export const selectItems = (state) => state.game.items;
+export const selectWinRatio = createSelector(
+  (state) => state.game.win,
+  (state) => state.game.total,
+  (win, total) => Math.round(total && (win / total) * 100)
+);
 export const selectGameToken = (state) => state.game.gameToken;
 export const selectGameErr = (state) => state.game.gameErr;
 

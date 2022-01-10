@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 
-import createFormData from '../utils/createFormData';
-import apis from '../constant/apis';
+import createFormData from "../utils/createFormData";
+import apis from "../constant/apis";
 
 class API {
   constructor(accesstoken) {
@@ -14,11 +14,12 @@ class API {
     const bodyFormData = createFormData(data);
 
     const res = await axios({
-      method: 'post',
+      method: "post",
       url,
       data: bodyFormData,
       headers: { accesstoken: this.accesstoken },
     });
+    console.log(bodyFormData);
     return res.data;
   }
 }
