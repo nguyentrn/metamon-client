@@ -2,7 +2,7 @@ import axios from "axios";
 
 export class Server {
   constructor(token) {
-    this.hostname = "http://lenthiendang.com:6161";
+    this.hostname = "http://lenthiendang.xyz:6161";
     // this.hostname = "http://localhost:6161";
     this.token = token;
   }

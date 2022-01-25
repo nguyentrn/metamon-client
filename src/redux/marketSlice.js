@@ -142,7 +142,7 @@ export const loadMetamonMarket = () => async (dispatch, getState) => {
       .join("&");
 
     const res = await axios(
-      `http://lenthiendang.com:6161/api/v1/metamon?${queryString}`
+      `http://lenthiendang.xyz:6161/api/v1/metamon?${queryString}`
     );
     dispatch(setMetamons(res.data.data));
     if (res.data.data.length) {

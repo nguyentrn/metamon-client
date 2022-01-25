@@ -154,9 +154,9 @@ const fight = (monster) => async (dispatch, getState) => {
   const data = {
     address,
     monsterA: monster.id,
-    monsterB,
-    // monsterB: "196225",
-    // monsterB: "1004424",
+    // monsterB,
+    // monsterB: "1007830",
+    monsterB: "1003588",
     battleLevel,
   };
   const api = new API(gameToken);
