@@ -2,7 +2,7 @@ import axios from "axios";
 
 export class Server {
   constructor(token) {
-    this.hostname = "http://lenthiendang.xyz:6161";
+    this.hostname = "http://128.199.137.24:6161";
     // this.hostname = "http://localhost:6161";
     this.token = token;
   }
@@ -47,7 +47,6 @@ export class Server {
   }
 
   async removeAddress(addressId) {
-    console.log(addressId);
     await axios.post(
       `${this.hostname}/api/v1/game/address/removeOne`,
       { addressId },

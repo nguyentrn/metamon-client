@@ -19,7 +19,6 @@ class API {
       data: bodyFormData,
       headers: { accesstoken: this.accesstoken },
     });
-    console.log(bodyFormData);
     return res.data;
   }
 }

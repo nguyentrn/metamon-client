@@ -154,13 +154,14 @@ const fight = (monster) => async (dispatch, getState) => {
   const data = {
     address,
     monsterA: monster.id,
-    // monsterB,
+    monsterB,
     // monsterB: "1007830",
-    monsterB: "1003588",
+    // monsterB: "1003588",
     battleLevel,
   };
   const api = new API(gameToken);
   const battleInfo = await api.sendRequest("startBattle", data);
+
   dispatch(getData());
   if (battleInfo.code === "MONSTER_ERROR") {
     await server.insertMonster({

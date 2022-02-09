@@ -3,7 +3,6 @@ export default async (req, res) => {
     const monster = req.body;
     monster.updated_at = new Date();
     monster.createTime = new Date(monster.createTime);
-    console.log(monster);
     await db("monsters").insert(monster).onConflict("id", monster.id).merge();
 
     res.status(200).json({

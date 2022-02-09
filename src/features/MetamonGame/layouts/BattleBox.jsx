@@ -10,7 +10,6 @@ import BattleInfo from "../components/BattleInfo";
 const BattleBox = () => {
   const battle = useSelector(selectBattleInfo);
   const isLoadingFighting = useSelector(selectIsLoadingFighting);
-  console.log(isLoadingFighting);
   return (
     <Flex
       bg="white"
