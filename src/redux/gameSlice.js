@@ -155,8 +155,8 @@ const fight = (monster) => async (dispatch, getState) => {
   const data = {
     address,
     monsterA: monster.id,
-    // monsterB,
-    monsterB: "1007830",
+    monsterB,
+    // monsterB: "1007830",
     // monsterB: "1003588",
     battleLevel,
   };
