@@ -93,7 +93,8 @@ export const loginGame = (data) => async (dispatch, getState) => {
     const {
       auth: { token },
     } = getState((state) => state);
-
+    data.network = 1;
+    console.log(data);
     dispatch(toggleLoadingGame(true));
     const url = "https://metamon-api.radiocaca.com/usm-api/login";
     const bodyFormData = createFormData(data);
@@ -154,8 +155,8 @@ const fight = (monster) => async (dispatch, getState) => {
   const data = {
     address,
     monsterA: monster.id,
-    monsterB,
-    // monsterB: "1007830",
+    // monsterB,
+    monsterB: "1007830",
     // monsterB: "1003588",
     battleLevel,
   };
