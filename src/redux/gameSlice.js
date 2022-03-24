@@ -1,7 +1,7 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-import Server from "../model/Server";
+// import Server from "../model/Server";
 import sleep from "../utils/sleep";
 import createFormData from "../utils/createFormData";
 import API from "../model/API";
@@ -103,8 +103,8 @@ export const loginGame = (data) => async (dispatch, getState) => {
     if (res.data.data) {
       dispatch(setGameToken(res.data.data?.accessToken));
       dispatch(toggleLoadingGame(false));
-      const server = new Server(token);
-      await server.insertAddress(data);
+      // const server = new Server(token);
+      // await server.insertAddress(data);
     } else {
       dispatch(setGameErr("Thông tin đăng nhập sai!"));
       dispatch(toggleLoadingGame(false));
@@ -121,8 +121,8 @@ export const removeAddress = (addressId) => async (dispatch, getState) => {
     auth: { token },
   } = getState((state) => state);
 
-  const server = new Server(token);
-  await server.removeAddress(addressId);
+  // const server = new Server(token);
+  // await server.removeAddress(addressId);
   dispatch(initUser(token));
 };
 
@@ -147,9 +147,9 @@ const fight = (monster) => async (dispatch, getState) => {
     game: { gameToken, address },
   } = getState((state) => state);
 
-  const server = new Server();
-  const lastMonster = await server.getLastMonster();
-  const monsterB = (lastMonster.id + 1).toString();
+  // const server = new Server();
+  // const lastMonster = await server.getLastMonster();
+  // const monsterB = (lastMonster.id + 1).toString();
   const battleLevel = Math.ceil(monster.level / 20);
   const data = {
     address,
@@ -164,10 +164,10 @@ const fight = (monster) => async (dispatch, getState) => {
 
   dispatch(getData());
   if (battleInfo.code === "MONSTER_ERROR") {
-    await server.insertMonster({
-      id: monsterB,
-      createTime: new Date(),
-    });
+    // await server.insertMonster({
+    //   id: monsterB,
+    //   createTime: new Date(),
+    // });
   } else if (battleInfo.data) {
     const { challengedMonster, challengeResult } = battleInfo.data;
     dispatch(addTotalCount());
@@ -175,29 +175,29 @@ const fight = (monster) => async (dispatch, getState) => {
       dispatch(addWinCount());
     }
 
-    await server.insertMonster({
-      con: challengedMonster.con,
-      createTime: challengedMonster.createTime,
-      crg: challengedMonster.crg,
-      exp: challengedMonster.exp,
-      id: challengedMonster.id * 1,
-      imageUrl: challengedMonster.imageUrl,
-      inte: challengedMonster.inte,
-      inv: challengedMonster.inv,
-      itemId: challengedMonster.itemId,
-      itemNum: challengedMonster.itemNum,
-      level: challengedMonster.level,
-      life: challengedMonster.life,
-      luk: challengedMonster.luk,
-      monsterUpdate: challengedMonster.monsterUpdate,
-      owner: challengedMonster.owner,
-      race: challengedMonster.race,
-      rarity: challengedMonster.rarity,
-      sca: challengedMonster.sca,
-      status: challengedMonster.status,
-      tokenId: challengedMonster.tokenId,
-      years: challengedMonster.years,
-    });
+    // await server.insertMonster({
+    //   con: challengedMonster.con,
+    //   createTime: challengedMonster.createTime,
+    //   crg: challengedMonster.crg,
+    //   exp: challengedMonster.exp,
+    //   id: challengedMonster.id * 1,
+    //   imageUrl: challengedMonster.imageUrl,
+    //   inte: challengedMonster.inte,
+    //   inv: challengedMonster.inv,
+    //   itemId: challengedMonster.itemId,
+    //   itemNum: challengedMonster.itemNum,
+    //   level: challengedMonster.level,
+    //   life: challengedMonster.life,
+    //   luk: challengedMonster.luk,
+    //   monsterUpdate: challengedMonster.monsterUpdate,
+    //   owner: challengedMonster.owner,
+    //   race: challengedMonster.race,
+    //   rarity: challengedMonster.rarity,
+    //   sca: challengedMonster.sca,
+    //   status: challengedMonster.status,
+    //   tokenId: challengedMonster.tokenId,
+    //   years: challengedMonster.years,
+    // });
     dispatch(setBattleInfo(battleInfo.data));
   }
   dispatch(toggleLoadingFighting(false));
